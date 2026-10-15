@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="DeployBuddy is a free, browser-based pre-deployment code review helper.">
+  <title>DeployBuddy — Your pre-deployment coding buddy</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home"><span class="brand-mark">D</span><span>DeployBuddy</span></a>
+  <nav><a href="#how">How it works</a><a href="#checks">Checks</a><a class="nav-cta" href="#scanner">Scan a project ↗</a></nav>
+</header>
+<main id="home">
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="pulse"></span> FREE · BROWSER-BASED MVP</div>
+      <h1>Catch issues<br>before <span>deploy day.</span></h1>
+      <p class="hero-sub">Your friendly pre-deployment reviewer. Spot common code patterns, understand why they matter, and see who might own the next step.</p>
+      <div class="hero-actions"><a class="button primary" href="#scanner">Scan your files <span>→</span></a><a class="text-link" href="#how">See how it works ↓</a></div>
+      <div class="trust-row"><span>✓ No account needed</span><span>✓ No backend bill</span><span>✓ Code stays in your browser</span></div>
+    </div>
+    <div class="hero-visual">
+      <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="glow"></div>
+      <div class="terminal">
+        <div class="term-head"><div class="dots"><i></i><i></i><i></i></div><span>deploybuddy · scan</span><span class="live">● READY</span></div>
+        <div class="term-body">
+          <p class="muted">$ deploybuddy inspect ./my-project</p>
+          <p><span class="green">✓</span> Files read locally</p><p><span class="green">✓</span> Pattern checks completed</p>
+          <div class="term-rule"></div><p><span class="amber">!</span> Possible hard-coded secret <span class="line">L24</span></p>
+          <p><span class="amber">!</span> Empty exception handler <span class="line">L81</span></p><p><span class="blue">i</span> Suggested owner: DevSecOps</p>
+          <div class="status"><span>READINESS REVIEW</span><b>Needs attention</b></div>
+        </div>
+      </div>
+      <div class="float-chip chip-top">✦ <span>Actionable guidance</span></div>
+      <div class="float-chip chip-bottom"><span class="chip-icon">↗</span><span><b>Fix with confidence</b><small>Understand before changing</small></span></div>
+    </div>
+  </section>
+  <section class="metrics"><div><b>01</b><span>Upload or paste source files</span></div><div><b>02</b><span>Review possible issues</span></div><div><b>03</b><span>Verify fixes yourself</span></div></section>
+  <section id="scanner" class="scanner-section">
+    <div class="section-heading"><div class="eyebrow">THE PROJECT SCANNER</div><h2>A second pair of eyes<br>for your code.</h2><p>Add source or configuration files. DeployBuddy checks for common patterns, explains findings, and creates a report you can download.</p></div>
+    <div class="scan-card">
+      <div class="scan-card-head"><div><span class="step-tag">01 / INPUT</span><h3>Start a new scan</h3><p>Use a sample project, upload files, or paste code.</p></div><span class="free-pill">FREE</span></div>
+      <form id="scan-form">
+        <label for="project-name">Project name</label><input id="project-name" maxlength="160" placeholder="e.g. My Spring Boot API" value="My first project" required>
+        <div class="input-label-row"><label for="source-files">Paste code</label><span>Max 80 files · 700k characters</span></div>
+        <div class="file-editor"><div class="file-editor-head"><span class="file-dot"></span><span id="file-name">ExampleService.java</span><span class="editor-lang">SOURCE</span></div><textarea id="source-files" spellcheck="false" aria-label="Source code input" placeholder="Paste code here, or load the example…"></textarea></div>
+        <div class="file-controls"><label class="button secondary upload-label" for="file-upload">＋ Add files</label><input id="file-upload" type="file" multiple hidden accept=".java,.js,.ts,.py,.sql,.yml,.yaml,.json,.xml,.properties,.env,.txt,.html,.css,.sh,.md,.go,.rb,.php,.cs,.dockerfile"><button type="button" class="text-button" id="load-sample">Load sample project</button><button type="button" class="text-button" id="clear-files">Clear</button></div>
+        <div id="selected-files" class="selected-files"><span class="empty-files">No files added yet — paste code or load a sample.</span></div>
+        <div class="privacy-note"><span>ⓘ</span><p><b>Privacy:</b> files are read and analyzed in this browser. This static version does not upload your source code or save reports to a server. Avoid pasting secrets into any tool, and use code you are permitted to review.</p></div>
+        <button class="button primary scan-button" id="scan-button" type="submit"><span>Analyze project</span><span>→</span></button>
+        <p class="form-note">Pattern-based checks only. This tool does not compile or execute your code.</p>
+      </form>
+      <div id="scan-error" class="error-box" role="alert" hidden></div><div id="scan-results" hidden aria-live="polite"></div>
+    </div>
+  </section>
+  <section id="checks" class="checks-section"><div class="section-heading"><div class="eyebrow">WHAT IT LOOKS FOR</div><h2>Not just a warning.<br>A next step.</h2><p>Findings include context, a suggested owner, and a verification step.</p></div>
+    <div class="check-grid">
+      <article class="check-card"><span class="check-icon orange">⌘</span><h3>Code hygiene</h3><p>Debug output, TODO markers and empty exception handlers.</p><span class="owner">Backend / Development</span></article>
+      <article class="check-card"><span class="check-icon red">⌁</span><h3>Security signals</h3><p>Possible hard-coded credentials, risky HTTP URLs and secret-like configuration.</p><span class="owner">DevSecOps / Security</span></article>
+      <article class="check-card"><span class="check-icon blue">▤</span><h3>Database patterns</h3><p>Broad SELECT * queries and SQL string concatenation worth reviewing.</p><span class="owner">Database / Data</span></article>
+      <article class="check-card"><span class="check-icon green">✓</span><h3>Deployment basics</h3><p>Configuration reminders, debug settings and missing environment checks.</p><span class="owner">Platform / DevOps</span></article>
+    </div><p class="disclaimer">A pattern match is not proof of a vulnerability or bug. A clean scan does not prove that code is safe, correct, tested, or deployable.</p>
+  </section>
+  <section id="how" class="how-section"><div><div class="eyebrow">A SIMPLE WORKFLOW</div><h2>Understand first.<br>Deploy with care.</h2></div><div class="steps">
+    <article><span>01</span><div><h3>Choose files</h3><p>Paste source code or select files from your computer. They are processed locally in your browser.</p></div></article>
+    <article><span>02</span><div><h3>Review findings</h3><p>Read severity, file location, why a pattern matters, and which team might own the fix.</p></div></article>
+    <article><span>03</span><div><h3>Test before you ship</h3><p>Make changes in a branch, run your real tests and builds, and keep deployment approval in human hands.</p></div></article>
+  </div></section>
+  <section class="bottom-cta"><div><div class="eyebrow">BUILT FOR DEVELOPERS</div><h2>Ship thoughtfully.<br>Learn along the way.</h2><p>Free to use. No backend or paid API required.</p></div><a class="button light" href="#scanner">Try DeployBuddy ↑</a></section>
+</main>
+<footer><a class="brand" href="#home"><span class="brand-mark">D</span><span>DeployBuddy</span></a><span>Made for the people who build.</span><span>Free MVP · Not a substitute for build and security tools</span></footer>
+</body></html>
